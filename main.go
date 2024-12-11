@@ -17,13 +17,19 @@ func main() {
 	}
 
 	// Expected command prompt, continue
-	fmt.Printf("starting crawl of: %v\n", os.Args[1])
-	body, err := getHTML(os.Args[1]) 
+	url := os.Args[1]
+	fmt.Printf("starting crawl of: %v\n", url)
+
+	pages := make(map[string]int)
+	pages, err := crawlPage(url, url, pages)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	fmt.Println(body)
+	for url, amount := range pages {
+		fmt.Printf("URL: %s - Amount: %v\n", url, amount)
+	}
+
 	os.Exit(0)
 }
